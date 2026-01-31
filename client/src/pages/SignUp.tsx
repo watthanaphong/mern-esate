@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link , useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 type SignUpFormData = {
   username?: string;
@@ -66,39 +66,39 @@ const SignUp = () => {
         </p>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="flex flex-col gap-6">
-          <input
-            onChange={handleChange}
-            type="text"
-            placeholder="Username"
-            id="username"
-            className="bg-[#241E18] text-[#EFE4D3] placeholder:text-[#9E8F7C] px-4 py-3 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#C6A15B]"
-          />
+        <form onSubmit={handleSubmit}>
+          <fieldset disabled={loading} className="flex flex-col gap-6">
+            <input
+              onChange={handleChange}
+              type="text"
+              placeholder="Username"
+              id="username"
+              className="bg-[#241E18] text-[#EFE4D3] placeholder:text-[#9E8F7C] px-4 py-3 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#C6A15B]"
+            />
 
-          <input
-            onChange={handleChange}
-            type="email"
-            placeholder="Email"
-            id="email"
-            className="bg-[#241E18] text-[#EFE4D3] placeholder:text-[#9E8F7C] px-4 py-3 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#C6A15B]"
-          />
+            <input
+              onChange={handleChange}
+              type="email"
+              placeholder="Email"
+              id="email"
+              className="bg-[#241E18] text-[#EFE4D3] placeholder:text-[#9E8F7C] px-4 py-3 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#C6A15B]"
+            />
 
-          <input
-            onChange={handleChange}
-            type="password"
-            placeholder="Password"
-            id="password"
-            className="bg-[#241E18] text-[#EFE4D3] placeholder:text-[#9E8F7C] px-4 py-3 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#C6A15B]"
-          />
+            <input
+              onChange={handleChange}
+              type="password"
+              placeholder="Password"
+              id="password"
+              className="bg-[#241E18] text-[#EFE4D3] placeholder:text-[#9E8F7C] px-4 py-3 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#C6A15B]"
+            />
 
-          {/* Button */}
-          <button
-            disabled={loading}
-            type="submit"
-            className="mt-4 bg-[#C6A15B] text-[#1E1713] py-3 rounded-lg tracking-widest uppercase text-sm hover:opacity-90 transition"
-          >
-            {loading ? "Createing Account..." : "Sign Up"}
-          </button>
+            <button
+              type="submit"
+              className="mt-4 bg-[#C6A15B] text-[#1E1713] py-3 rounded-lg tracking-widest uppercase text-sm hover:opacity-90 transition"
+            >
+              {loading ? "Creating Account..." : "Sign Up"}
+            </button>
+          </fieldset>
         </form>
 
         {/* Footer */}
