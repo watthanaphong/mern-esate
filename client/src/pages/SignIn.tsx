@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import { useAppSelector, useAppDispatch } from "../redux/hooks";
 import {
   signInStart,
@@ -9,17 +8,17 @@ import {
 } from "../redux/user/userSlice";
 
 type SignInFormData = {
-  email?: string;
-  password?: string;
+  email: string;
+  password: string;
 };
 const SignIn = () => {
   const [formData, setFormData] = useState<SignInFormData>({
     email: "",
     password: "",
   });
-const { loading, error } = useAppSelector((state) => state.user);
+  const { loading, error } = useAppSelector((state) => state.user);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
@@ -38,7 +37,10 @@ const { loading, error } = useAppSelector((state) => state.user);
         body: JSON.stringify(formData),
       });
       const data = await res.json();
-      console.log(data);
+      if (!res.ok) {
+        dispatch(signInFailure(data.message || "Sign in failed"));
+        return;
+      }
       if (data.success === false) {
         dispatch(signInFailure(data.message));
         return;

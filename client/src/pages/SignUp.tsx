@@ -2,9 +2,9 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 type SignUpFormData = {
-  username?: string;
-  email?: string;
-  password?: string;
+  username: string;
+  email: string;
+  password: string;
 };
 
 const SignUp = () => {
@@ -16,12 +16,15 @@ const SignUp = () => {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.id]: e.target.value,
-    });
+    const { id, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [id as keyof SignUpFormData]: value,
+    }));
   };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     try {
       e.preventDefault();
@@ -34,7 +37,11 @@ const SignUp = () => {
         body: JSON.stringify(formData),
       });
       const data = await res.json();
-      console.log(data);
+      if (!res.ok) {
+        setError(data.message || "Sign up failed");
+        setLoading(false);
+        return;
+      }
       if (data.success === false) {
         setError(data.message);
         setLoading(false);
@@ -74,6 +81,7 @@ const SignUp = () => {
               placeholder="Username"
               id="username"
               className="bg-[#241E18] text-[#EFE4D3] placeholder:text-[#9E8F7C] px-4 py-3 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#C6A15B]"
+              required
             />
 
             <input
@@ -82,6 +90,7 @@ const SignUp = () => {
               placeholder="Email"
               id="email"
               className="bg-[#241E18] text-[#EFE4D3] placeholder:text-[#9E8F7C] px-4 py-3 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#C6A15B]"
+              required
             />
 
             <input
@@ -90,6 +99,7 @@ const SignUp = () => {
               placeholder="Password"
               id="password"
               className="bg-[#241E18] text-[#EFE4D3] placeholder:text-[#9E8F7C] px-4 py-3 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#C6A15B]"
+              required
             />
 
             <button
