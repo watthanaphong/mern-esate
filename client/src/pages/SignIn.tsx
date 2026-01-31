@@ -1,7 +1,54 @@
-import React from "react";
-import { Link } from "react-router-dom";
-
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+type SignInFormData = {
+  email?: string;
+  password?: string;
+};
 const SignIn = () => {
+  const [formData, setFormData] = useState<SignInFormData>({
+    email: "",
+    password: "",
+  });
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.id]: e.target.value,
+    });
+  };
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    try {
+      e.preventDefault();
+      setLoading(true);
+      const res = await fetch("/api/auth/signin", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      console.log(data);
+      if (data.success === false) {
+        setError(data.message);
+        setLoading(false);
+        return;
+      }
+      setLoading(false);
+      setError(null);
+      navigate("/");
+    } catch (err) {
+      setLoading(false);
+
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("Something went wrong");
+      }
+    }
+  };
   return (
     <main className="flex items-center justify-center px-4">
       <div className="w-full max-w-md bg-[#2E271F] border border-[#3A3127] rounded-2xl p-10 shadow-xl">
@@ -14,29 +61,38 @@ const SignIn = () => {
         </p>
 
         {/* Form */}
-        <form className="flex flex-col gap-6">
-          <input
-            type="email"
-            placeholder="Email"
-            id="email"
-            className="bg-[#241E18] text-[#EFE4D3] placeholder:text-[#9E8F7C] px-4 py-3 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#C6A15B]"
-          />
+        <form onSubmit={handleSubmit}>
+          <fieldset disabled={loading} className="flex flex-col gap-6">
+            <input
+              onChange={handleChange}
+              type="email"
+              placeholder="Email"
+              id="email"
+              className="bg-[#241E18] text-[#EFE4D3] placeholder:text-[#9E8F7C] px-4 py-3 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#C6A15B]"
+              required
+            />
 
-          <input
-            type="password"
-            placeholder="Password"
-            id="password"
-            className="bg-[#241E18] text-[#EFE4D3] placeholder:text-[#9E8F7C] px-4 py-3 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#C6A15B]"
-          />
+            <input
+              onChange={handleChange}
+              type="password"
+              placeholder="Password"
+              id="password"
+              className="bg-[#241E18] text-[#EFE4D3] placeholder:text-[#9E8F7C] px-4 py-3 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#C6A15B]"
+              required
+            />
 
-          {/* Button */}
-          <button
-            type="submit"
-            className="mt-4 bg-[#C6A15B] text-[#1E1713] py-3 rounded-lg tracking-widest uppercase text-sm hover:opacity-90 transition"
-          >
-            Sign In
-          </button>
+            <button
+              type="submit"
+              className="mt-4 bg-[#C6A15B] text-[#1E1713] py-3 rounded-lg tracking-widest uppercase text-sm hover:opacity-90 transition"
+            >
+              {loading ? "Signing In..." : "Sign In"}
+            </button>
+          </fieldset>
         </form>
+
+        {error && (
+          <p className="text-center text-sm text-red-400 mt-4">{error}</p>
+        )}
 
         {/* Footer */}
         <p className="text-center text-sm text-[#B8A895] mt-8">
