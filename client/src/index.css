@@ -1,2 +1,60 @@
 @import "tailwindcss";
+/* ===== Warm Soft Luxury Brown ===== */
+body {
+  background-color: #1E1713; /* softer & warmer */
+  color: #EFE4D3;
+  font-family: 'Playfair Display', 'Cormorant Garamond', serif;
+  letter-spacing: 0.025em;
+  line-height: 1.8;
+  -webkit-font-smoothing: antialiased;
+}
 
+/* Layout */
+main {
+  padding-top: 6rem;
+}
+
+/* Section layer */
+section {
+  background-color: #26201A;
+}
+
+/* Card / Property box */
+.card {
+  background-color: #2E271F;
+  border: 1px solid #3A3127;
+  border-radius: 14px;
+}
+
+/* Muted text */
+.text-muted {
+  color: #B8A895;
+}
+
+/* Elegant divider */
+.divider {
+  height: 1px;
+  margin: 4rem 0;
+  background: linear-gradient(
+    to right,
+    transparent,
+    #3A3127,
+    transparent
+  );
+}
+
+/* Links */
+a {
+  color: inherit;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: #C6A15B;
+}
+
+/* Selection */
+::selection {
+  background: #C6A15B;
+  color: #1E1713;
+}

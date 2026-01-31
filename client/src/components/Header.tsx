@@ -25,7 +25,7 @@ const Header = () => {
         </Link>
 
         {/* Desktop Nav */}
-        <nav className="hidden md:flex gap-14 text-xs tracking-[0.3em] uppercase">
+        <nav className="hidden md:flex gap-8 text-xs tracking-[0.3em] uppercase">
           {menuItems.map((item) => (
             <Link key={item.label} to={item.path}>
               <span className="relative text-[#9C8A75] hover:text-[#E6D6C3] transition">
@@ -54,6 +54,12 @@ const Header = () => {
             className="hidden md:inline text-xs tracking-[0.25em] uppercase text-[#E6D6C3] hover:text-[#B08D57] transition"
           >
             Login
+          </Link>
+          <Link
+            to="/sign-up"
+            className="hidden md:inline text-xs tracking-[0.25em] uppercase text-[#E6D6C3] hover:text-[#B08D57] transition"
+          >
+            Sign Up
           </Link>
 
           {/* Mobile Toggle */}
@@ -91,6 +97,13 @@ const Header = () => {
               className="text-[#B08D57] tracking-[0.35em] hover:text-[#E6D6C3] transition"
             >
               Login
+            </Link>
+             <Link
+              to="/sign-up"
+              onClick={() => setOpen(false)}
+              className="text-[#B08D57] tracking-[0.35em] hover:text-[#E6D6C3] transition"
+            >
+              Sign Up
             </Link>
           </ul>
         </div>

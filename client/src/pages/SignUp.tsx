@@ -1,11 +1,61 @@
-import React from 'react'
+import React from "react";
+import { Link } from "react-router-dom";
 
 const SignUp = () => {
   return (
-    <div>
-      SignUp
-    </div>
-  )
-}
+    <main className="flex items-center justify-center px-2">
+      <div className="w-full max-w-md bg-[#2E271F] border border-[#3A3127] rounded-2xl p-10 shadow-xl">
 
-export default SignUp
+        {/* Title */}
+        <h1 className="text-3xl font-light tracking-widest text-center mb-2">
+          Create Account
+        </h1>
+        <p className="text-sm text-center text-[#B8A895] mb-10">
+          Access exclusive luxury residences
+        </p>
+
+        {/* Form */}
+        <form className="flex flex-col gap-6">
+          <input
+            type="text"
+            placeholder="Username"
+            id="username"
+            className="bg-[#241E18] text-[#EFE4D3] placeholder:text-[#9E8F7C] px-4 py-3 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#C6A15B]"
+          />
+
+          <input
+            type="email"
+            placeholder="Email"
+            id="email"
+            className="bg-[#241E18] text-[#EFE4D3] placeholder:text-[#9E8F7C] px-4 py-3 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#C6A15B]"
+          />
+
+          <input
+            type="password"
+            placeholder="Password"
+            id="password"
+            className="bg-[#241E18] text-[#EFE4D3] placeholder:text-[#9E8F7C] px-4 py-3 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#C6A15B]"
+          />
+
+          {/* Button */}
+          <button
+            type="submit"
+            className="mt-4 bg-[#C6A15B] text-[#1E1713] py-3 rounded-lg tracking-widest uppercase text-sm hover:opacity-90 transition"
+          >
+            Sign Up
+          </button>
+        </form>
+
+        {/* Footer */}
+        <p className="text-center text-sm text-[#B8A895] mt-8">
+          Already a member?{" "}
+          <Link to="/sign-in" className="text-[#C6A15B] hover:underline">
+            Sign In
+          </Link>
+        </p>
+      </div>
+    </main>
+  );
+};
+
+export default SignUp;
