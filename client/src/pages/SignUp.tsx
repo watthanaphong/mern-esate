@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import OAuth from "../components/OAuth";
 
 type SignUpFormData = {
   username: string;
@@ -108,6 +109,15 @@ const SignUp = () => {
             >
               {loading ? "Creating Account..." : "Sign Up"}
             </button>
+            <div className="flex items-center gap-4 my-1">
+              <div className="flex-1 h-px bg-[#3A3127]" />
+              <span className="text-xs text-[#B8A895] uppercase tracking-widest">
+                or
+              </span>
+              <div className="flex-1 h-px bg-[#3A3127]" />
+            </div>
+
+            <OAuth />
           </fieldset>
         </form>
 

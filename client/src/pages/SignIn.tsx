@@ -6,6 +6,7 @@ import {
   signInSuccess,
   signInFailure,
 } from "../redux/user/userSlice";
+import OAuth from "../components/OAuth";
 
 type SignInFormData = {
   email: string;
@@ -89,6 +90,15 @@ const SignIn = () => {
             >
               {loading ? "Signing In..." : "Sign In"}
             </button>
+            <div className="flex items-center gap-4 my-1">
+              <div className="flex-1 h-px bg-[#3A3127]" />
+              <span className="text-xs text-[#B8A895] uppercase tracking-widest">
+                or
+              </span>
+              <div className="flex-1 h-px bg-[#3A3127]" />
+            </div>
+
+            <OAuth />
           </fieldset>
         </form>
 

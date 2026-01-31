@@ -19,7 +19,7 @@ const Header = () => {
         {/* Logo */}
         <Link to="/" onClick={() => setOpen(false)}>
           <h1 className="text-xl tracking-[0.25em] uppercase">
-            <span className="font-light text-[#E6D6C3]">Estate</span>{" "}
+            <span className="font-light text-[#E6D6C3]">GOOD</span>{" "}
             <span className="font-semibold text-[#B08D57]">Luxe</span>
           </h1>
         </Link>
