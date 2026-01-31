@@ -1,11 +1,62 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link , useNavigate } from "react-router-dom";
+
+type SignUpFormData = {
+  username?: string;
+  email?: string;
+  password?: string;
+};
 
 const SignUp = () => {
+  const [formData, setFormData] = useState<SignUpFormData>({
+    username: "",
+    email: "",
+    password: "",
+  });
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.id]: e.target.value,
+    });
+  };
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    try {
+      e.preventDefault();
+      setLoading(true);
+      const res = await fetch("/api/auth/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      console.log(data);
+      if (data.success === false) {
+        setError(data.message);
+        setLoading(false);
+        return;
+      }
+      setLoading(false);
+      setError(null);
+      navigate("/sign-in");
+    } catch (err) {
+      setLoading(false);
+
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("Something went wrong");
+      }
+    }
+  };
+
   return (
     <main className="flex items-center justify-center px-2">
       <div className="w-full max-w-md bg-[#2E271F] border border-[#3A3127] rounded-2xl p-10 shadow-xl">
-
         {/* Title */}
         <h1 className="text-3xl font-light tracking-widest text-center mb-2">
           Create Account
@@ -15,8 +66,9 @@ const SignUp = () => {
         </p>
 
         {/* Form */}
-        <form className="flex flex-col gap-6">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-6">
           <input
+            onChange={handleChange}
             type="text"
             placeholder="Username"
             id="username"
@@ -24,6 +76,7 @@ const SignUp = () => {
           />
 
           <input
+            onChange={handleChange}
             type="email"
             placeholder="Email"
             id="email"
@@ -31,6 +84,7 @@ const SignUp = () => {
           />
 
           <input
+            onChange={handleChange}
             type="password"
             placeholder="Password"
             id="password"
@@ -39,10 +93,11 @@ const SignUp = () => {
 
           {/* Button */}
           <button
+            disabled={loading}
             type="submit"
             className="mt-4 bg-[#C6A15B] text-[#1E1713] py-3 rounded-lg tracking-widest uppercase text-sm hover:opacity-90 transition"
           >
-            Sign Up
+            {loading ? "Createing Account..." : "Sign Up"}
           </button>
         </form>
 
@@ -53,6 +108,7 @@ const SignUp = () => {
             Sign In
           </Link>
         </p>
+        {error && <p className="text-red-500 mt-5">{error}</p>}
       </div>
     </main>
   );
