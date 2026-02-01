@@ -1,6 +1,7 @@
 import { useAppSelector } from "../redux/hooks";
 import { useDispatch } from "react-redux";
 import { useRef, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   updateUserStart,
   updateUserSuccess,
@@ -8,10 +9,14 @@ import {
   signOutStart,
   signOutSuccess,
   signOutFailure,
+  deleteUserStart,
+  deleteUserSuccess,
+  deleteUserFailure,
 } from "../redux/user/userSlice";
 
 const Profile = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const fileRef = useRef<HTMLInputElement | null>(null);
 
   const currentUser = useAppSelector((state) => state.user.currentUser);
@@ -137,6 +142,33 @@ const Profile = () => {
     }
   };
 
+  const handleDeleteAccount = async () => {
+    const confirmDelete = window.confirm(
+      "⚠️ This action cannot be undone. Are you sure?",
+    );
+    if (!confirmDelete) return;
+
+    try {
+      dispatch(deleteUserStart());
+      console.log(currentUser?.avatarPublicId);
+
+      const res = await fetch(`/api/user/delete/${currentUser._id}`, {
+        method: "DELETE",
+      });
+
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(deleteUserFailure(data.message));
+        return;
+      }
+
+      dispatch(deleteUserSuccess());
+      navigate("/sign-in");
+    } catch (err: any) {
+      dispatch(deleteUserFailure(err.message));
+    }
+  };
+
   return (
     <div className="min-w-5 mt-10 bg-[#1E1713] flex items-center justify-center px-4">
       <div className="w-full max-w-md bg-[#2A201A] rounded-2xl shadow-2xl p-8 border border-[#3A2C22]">
@@ -203,7 +235,10 @@ const Profile = () => {
         {/* Actions */}{" "}
         <div className="flex justify-between mt-8 text-sm">
           {" "}
-          <span className="text-red-500 hover:text-red-400 cursor-pointer transition">
+          <span
+            onClick={handleDeleteAccount}
+            className="text-red-500 hover:text-red-400 cursor-pointer transition"
+          >
             {" "}
             Delete account{" "}
           </span>{" "}
