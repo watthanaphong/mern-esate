@@ -1,8 +1,9 @@
 import { FaSearch, FaBars, FaTimes } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-
+import { useAppSelector, useAppDispatch } from "../redux/hooks";
 const Header = () => {
+  const { currentUser } = useAppSelector((state) => state.user);
   const [open, setOpen] = useState(false);
 
   const menuItems = [
@@ -15,7 +16,6 @@ const Header = () => {
   return (
     <header className="bg-[#120D0A] border-b border-[#2A1F18] relative z-50">
       <div className="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
-
         {/* Logo */}
         <Link to="/" onClick={() => setOpen(false)}>
           <h1 className="text-xl tracking-[0.25em] uppercase">
@@ -50,17 +50,23 @@ const Header = () => {
 
           {/* Desktop Login */}
           <Link
-            to="/sign-in"
+            to="/profile"
             className="hidden md:inline text-xs tracking-[0.25em] uppercase text-[#E6D6C3] hover:text-[#B08D57] transition"
           >
-            Login
+            {currentUser ? (
+              <img className="rounded-full h-7 w-7" src={currentUser.avatar} alt="profile" />
+            ) : (
+              <label className="hidden md:inline text-xs tracking-[0.25em] uppercase text-[#E6D6C3] hover:text-[#B08D57] transition">Login</label> 
+            )
+            }
+           
           </Link>
-          <Link
+          {/* <Link
             to="/sign-up"
             className="hidden md:inline text-xs tracking-[0.25em] uppercase text-[#E6D6C3] hover:text-[#B08D57] transition"
           >
             Sign Up
-          </Link>
+          </Link> */}
 
           {/* Mobile Toggle */}
           <button
@@ -92,19 +98,24 @@ const Header = () => {
 
             {/* Mobile Login */}
             <Link
-              to="/sign-in"
+              to="/profile"
               onClick={() => setOpen(false)}
               className="text-[#B08D57] tracking-[0.35em] hover:text-[#E6D6C3] transition"
             >
-              Login
+              {currentUser ? (
+              <img className="rounded-full h-7 w-7" src={currentUser.avatar} alt="profile" />
+            ) : (
+              <label className="hidden md:inline text-xs tracking-[0.25em] uppercase text-[#E6D6C3] hover:text-[#B08D57] transition">Login</label> 
+            )
+            }
             </Link>
-             <Link
+            {/* <Link
               to="/sign-up"
               onClick={() => setOpen(false)}
               className="text-[#B08D57] tracking-[0.35em] hover:text-[#E6D6C3] transition"
             >
               Sign Up
-            </Link>
+            </Link> */}
           </ul>
         </div>
       )}
