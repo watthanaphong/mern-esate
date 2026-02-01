@@ -1,9 +1,16 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { User } from '../../types/user';
 
-const initialState = {
+interface UserState {
+  currentUser: User | null;
+  loading: boolean;
+  error: string | null;
+}
+
+const initialState: UserState = {
   currentUser: null,
-  error: null,
   loading: false,
+  error: null,
 };
 
 const userSlice = createSlice({
@@ -13,17 +20,20 @@ const userSlice = createSlice({
     signInStart: (state) => {
       state.loading = true;
     },
-    signInSuccess: (state, action) => {
+
+    signInSuccess: (state, action: PayloadAction<User>) => {
       state.currentUser = action.payload;
       state.loading = false;
       state.error = null;
     },
-    signInFailure: (state, action) => {
+
+    signInFailure: (state, action: PayloadAction<string>) => {
       state.error = action.payload;
       state.loading = false;
     },
   },
 });
+
 
 export const { signInStart, signInSuccess, signInFailure } =
   userSlice.actions;
