@@ -5,7 +5,7 @@ import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
 import userRouter from './routes/user.route.js';
 import authRouter from './routes/auth.route.js';
-
+import listingRouter from './routes/listing.route.js'
 
 
 const app = express();
@@ -17,7 +17,7 @@ app.use(cookieParser());
 // routes
 app.use('/api/user', userRouter);
 app.use('/api/auth', authRouter);
-
+app.use('/api/listing', listingRouter);
 // error handler
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
