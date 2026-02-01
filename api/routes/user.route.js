@@ -7,6 +7,9 @@ const router = express.Router();
 router.put("/:id", verifyToken, (req, res, next) => {
   next();
 }, updateUser);
+// router.delete("delete/:id", verifyToken,(req, res, next) =>{
+//   next();
+// }, deleteUser);
 
 
 export default router;

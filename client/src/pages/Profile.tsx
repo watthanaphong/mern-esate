@@ -5,6 +5,9 @@ import {
   updateUserStart,
   updateUserSuccess,
   updateUserFailure,
+  signOutStart,
+  signOutSuccess,
+  signOutFailure,
 } from "../redux/user/userSlice";
 
 const Profile = () => {
@@ -115,6 +118,25 @@ const Profile = () => {
     }
   };
 
+  const handleSignOut = async () => {
+    try {
+      dispatch(signOutStart());
+      const res = await fetch("/api/auth/signout", {
+        method: "POST",
+      });
+      const data = await res.json();
+
+      if (data.success === false) {
+        dispatch(signOutFailure(data.message));
+        return;
+      }
+
+      dispatch(signOutSuccess());
+    } catch (err: any) {
+      dispatch(signOutFailure(err.message));
+    }
+  };
+
   return (
     <div className="min-w-5 mt-10 bg-[#1E1713] flex items-center justify-center px-4">
       <div className="w-full max-w-md bg-[#2A201A] rounded-2xl shadow-2xl p-8 border border-[#3A2C22]">
@@ -185,7 +207,10 @@ const Profile = () => {
             {" "}
             Delete account{" "}
           </span>{" "}
-          <span className="text-[#C6A15B] hover:underline cursor-pointer transition">
+          <span
+            onClick={handleSignOut}
+            className="text-[#C6A15B] hover:underline cursor-pointer transition"
+          >
             {" "}
             Sign out{" "}
           </span>{" "}
