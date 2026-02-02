@@ -49,21 +49,31 @@ const Header = () => {
           </div>
 
           {/* Desktop Login */}
-          <Link to="/my-listings">My Listings</Link>
+          {currentUser && (
+            <Link
+              to="/my-listings"
+              className="text-xs tracking-[0.25em] uppercase text-[#E6D6C3] hover:text-[#B08D57] transition"
+            >
+              My Listings
+            </Link>
+          )}
+
           <Link
             to="/profile"
             className="hidden md:inline text-xs tracking-[0.25em] uppercase text-[#E6D6C3] hover:text-[#B08D57] transition"
           >
             {currentUser ? (
-              <img className="rounded-full h-7 w-7" src={currentUser.avatar} alt="profile" />
+              <img
+                className="rounded-full h-7 w-7"
+                src={currentUser.avatar}
+                alt="profile"
+              />
             ) : (
-              <label className="hidden md:inline text-xs tracking-[0.25em] uppercase text-[#E6D6C3] hover:text-[#B08D57] transition">Login</label> 
-            )
-            }
-           
+              <label className="hidden md:inline text-xs tracking-[0.25em] uppercase text-[#E6D6C3] hover:text-[#B08D57] transition">
+                Login
+              </label>
+            )}
           </Link>
-
-          
 
           {/* Mobile Toggle */}
           <button
@@ -94,17 +104,36 @@ const Header = () => {
             <div className="w-12 h-[1px] bg-[#2A1F18] my-2"></div>
 
             {/* Mobile Login */}
+            {currentUser && (
+              <>
+                <div className="w-12 h-[1px] bg-[#2A1F18] my-2"></div>
+
+                <Link
+                  to="/my-listings"
+                  onClick={() => setOpen(false)}
+                  className="text-[#E6D6C3] hover:text-[#B08D57] transition tracking-[0.3em]"
+                >
+                  My Listings
+                </Link>
+              </>
+            )}
+
             <Link
               to="/profile"
               onClick={() => setOpen(false)}
               className="text-[#B08D57] tracking-[0.35em] hover:text-[#E6D6C3] transition"
             >
               {currentUser ? (
-              <img className="rounded-full h-7 w-7" src={currentUser.avatar} alt="profile" />
-            ) : (
-              <label className="hidden md:inline text-xs tracking-[0.25em] uppercase text-[#E6D6C3] hover:text-[#B08D57] transition">Login</label> 
-            )
-            }
+                <img
+                  className="rounded-full h-7 w-7"
+                  src={currentUser.avatar}
+                  alt="profile"
+                />
+              ) : (
+                <label className="hidden md:inline text-xs tracking-[0.25em] uppercase text-[#E6D6C3] hover:text-[#B08D57] transition">
+                  Login
+                </label>
+              )}
             </Link>
             {/* <Link
               to="/sign-up"

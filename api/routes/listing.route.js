@@ -13,7 +13,8 @@ const router = express.Router();
 
 router.post("/", verifyToken, createListing);
 router.put("/:id", verifyToken, updateListing);
-router.get("/:id", getListing);
+router.get("/get/:id", getListing); // public
+
 router.delete("/:id", verifyToken, deleteListing);
 router.get("/user/me", verifyToken, getUserListings);
 

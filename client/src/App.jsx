@@ -24,6 +24,7 @@ const App = () => {
     <Route element={<PrivateRoute />} >
       <Route path='/profile' element={<Profile />} />
       <Route path='/create-listing' element={<CreateListing />} />
+      <Route path="/edit-listing/:id" element={<CreateListing />} />
       <Route path="/my-listings" element={<MyListings />} /> 
       <Route path="/listing/:id" element={<Listing />} />
     </Route>

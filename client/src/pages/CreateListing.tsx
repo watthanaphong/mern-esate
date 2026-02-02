@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import ImageUploader from "../components/ImageUploader";
 
-const CreateListing = ({ isEdit = false }) => {
+const CreateListing = () => {
   const navigate = useNavigate();
   const { id } = useParams();
+  const isEdit = Boolean(id);
 
   const [loading, setLoading] = useState(false);
 
@@ -28,11 +29,13 @@ const CreateListing = ({ isEdit = false }) => {
      LOAD DATA (EDIT MODE)
   ======================= */
   useEffect(() => {
-    if (!isEdit || !id) return;
+    if (!id) return;
 
     const fetchListing = async () => {
       try {
-        const res = await fetch(`/api/listing/${id}`);
+        const res = await fetch(`/api/listing/get/${id}`, {
+          credentials: "include",
+        });
         const data = await res.json();
 
         setFormData({
@@ -56,7 +59,7 @@ const CreateListing = ({ isEdit = false }) => {
     };
 
     fetchListing();
-  }, [id, isEdit]);
+  }, [id]);
 
   /* =======================
      HANDLERS
@@ -70,42 +73,26 @@ const CreateListing = ({ isEdit = false }) => {
         type === "checkbox"
           ? checked
           : type === "number"
-          ? Number(value)
-          : value,
+            ? Number(value)
+            : value,
     }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (images.length === 0) {
-      alert("Please upload at least one image");
-      return;
-    }
-
-    if (formData.offer && formData.discountPrice >= formData.regularPrice) {
-      alert("Discount price must be lower than regular price");
-      return;
-    }
-
     try {
       setLoading(true);
 
-      const res = await fetch(
-        isEdit ? `/api/listing/${id}` : "/api/listing",
-        {
-          method: isEdit ? "PUT" : "POST",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-          body: JSON.stringify({ ...formData, images }),
-        }
-      );
+      const res = await fetch(id ? `/api/listing/${id}` : "/api/listing", {
+        method: id ? "PUT" : "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ ...formData, images }),
+      });
 
       const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(data.message || "Something went wrong");
-      }
+      if (!res.ok) throw new Error(data.message || "Something went wrong");
 
       navigate(`/listing/${data._id}`);
     } catch (err) {
@@ -240,8 +227,8 @@ const CreateListing = ({ isEdit = false }) => {
             {loading
               ? "Saving..."
               : isEdit
-              ? "Update Listing"
-              : "Create Listing"}
+                ? "Update Listing"
+                : "Create Listing"}
           </button>
         </form>
       </main>
