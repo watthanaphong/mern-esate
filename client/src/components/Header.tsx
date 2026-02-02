@@ -49,6 +49,7 @@ const Header = () => {
           </div>
 
           {/* Desktop Login */}
+          <Link to="/my-listings">My Listings</Link>
           <Link
             to="/profile"
             className="hidden md:inline text-xs tracking-[0.25em] uppercase text-[#E6D6C3] hover:text-[#B08D57] transition"
@@ -61,12 +62,8 @@ const Header = () => {
             }
            
           </Link>
-          {/* <Link
-            to="/sign-up"
-            className="hidden md:inline text-xs tracking-[0.25em] uppercase text-[#E6D6C3] hover:text-[#B08D57] transition"
-          >
-            Sign Up
-          </Link> */}
+
+          
 
           {/* Mobile Toggle */}
           <button

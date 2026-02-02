@@ -43,6 +43,10 @@ section {
   );
 }
 
+.input {
+  @apply w-full bg-[#1E1713] border border-[#3A2C22] rounded-lg px-4 py-3 text-[#F5EEDC];
+}
+
 /* Links */
 a {
   color: inherit;

@@ -231,6 +231,7 @@ const Profile = () => {
           >
             Update Profile
           </button>
+          
         </form>
         {/* Actions */}{" "}
         <div className="flex justify-between mt-8 text-sm">
